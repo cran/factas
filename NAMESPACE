@@ -1,0 +1,6 @@
+export(CA,CCA,CDA,MFA,PCA,GCCA,MCA,CA_iter,CCA_iter,CDA_iter,MFA_iter,PCA_iter,GCCA_iter,MCA_iter,factas,norm,orth_Gram_Schmidt,orth_Gram_Schmidt_metrique_diag,orth_norm_Gram_Schmidt,orth_norm_Gram_Schmidt_metrique_diag,preprocess_CA,preprocess_CDA,preprocess_MCA)
+import(Matrix)
+import(graphics)
+import(plotrix)
+import(datasets)
+import(FactoMineR)

@@ -1,0 +1,154 @@
+\name{factas}
+\alias{factas}
+%- Also NEED an '\alias' for EACH other topic documented here.
+\title{
+function usefull to perform fast data-mining, especially for high-dimensional and on-line data (Big Data).
+}
+\description{
+Principal function of the package.
+It permits user to perform fast (factorial) analyses on (high dimensional) on-line data.  
+Several kind of analyses are possible:
+\itemize{
+\item (Normalized) Principal Component Analysis \link[=PCA]{(PCA)}
+\item Multiple Factor Analysis \link[=MFA]{(MFA)}
+\item Canonical Correlation Analysis \link[=CCA]{(CCA)}
+\item Generalized Canonical Correlation Analysis \link[=GCCA]{(GCCA)}
+\item Canonical Discriminant Analysis 
+(also termed Discriminant Factor Analysis or Multiple Discriminant Analysis)\link[=CDA]{(CDA)}
+\item Correpondence Analysis \link[=CA]{(CA)}
+\item Multiple Correpondence Analysis \link[=MCA]{(MCA)}
+}
+Using stochastic processes, several estimation may be calculated depending on the user goals:
+principal factors, principal axes, eigenvalues and correlation coefficients between the original
+variables and the principal factors can be computed and updated recursively.
+ 
+Moreover, graphics may be printed in order to give a better visualization and meaning/interpretation of
+the data. It's possible to get meaningful 2D visualizations: the observations are projected on the plans generated
+ by direction vectors of the principal axes.  Correlation circles that show a
+projection of the initial variables in the factors space are also available.
+}
+\usage{
+factas(type, data, groups = NULL, stream = TRUE, nb_fact,
+principal_factors = TRUE, principal_axes = FALSE, eigenvalues = FALSE,
+corr = FALSE, graphics=FALSE, data_init, exec_time, print_step)
+}
+%- maybe also 'usage' for other objects documented here.
+\arguments{
+  \item{type}{character string : type of analysis to perform (PCA,MFA,CCA,GCCA,CDA, CA or MCA) (between quotes !)
+
+}
+  \item{data}{data.frame : data to be analysed. The columns will represent the variables and 
+the rows will represent the observations (sometimes called records, subjects or cases).
+If you consider on-line data (\code{stream=TRUE}), of course all the observations are not available at the
+beginning of the analysis. Thus, each observation (line of the matrix) will be treated 
+individually (and then forgotten) to simulate the data stream.       
+}
+  \item{groups}{vector : For all the analyses except PCA ( for which the variables are
+ always considered individually ) and CA (for which we always consider 2 (nominative) variables),
+ the function requires: the dimension/length of the groups of quantitative variables OR the number of categories for each nominative variable.
+
+For instance, if you consider 3 groups respectively composed of 5,7 and 2 quantitative variables, or 3 nominative variables owning respectively 5,7 and 2 categories, just type
+c(5,7,2).  
+
+
+N.B. : In CCA, CDA and CA, only two groups of variables are considered.
+
+More precisely, in CCA, the two groups are composed of quantitative variables. If you have
+to consider more than 2 groups, just use GCCA (generalization of CCA to more than 2 groups).
+The vector "groups" will be of the form c(.,.).
+
+In CDA, the first group is composed of quantitative variables while the second one is only composed
+of 1 nominative variable (qualitative variable such that there is no meaningful ordering,
+or ranking, of the categories). The vector "groups" will be of the form c(.,1).
+
+At last, in CA, the two groups are composed of 1 nominative variable. There is no need to
+define "groups". 
+}
+  \item{stream}{boolean : stream=TRUE if you consider data stream; stream=FALSE otherwise.
+
+}
+  \item{nb_fact}{integer : number of elements to be calculated. For instance, if you need
+ the three first principal factors, nb_fact=3
+
+}
+  \item{principal_factors}{ boolean : principal_factors=TRUE if you need the value of some first
+principal factors; principal_factors=FALSE otherwise.
+}
+  \item{principal_axes}{ boolean : principal_axes=TRUE if you need the value of some first
+principal axes; principal_axes=FALSE otherwise.
+}
+  \item{eigenvalues}{boolean : eigenvalues=TRUE if you need the value of some first
+eigenvalues; eigenvalues=FALSE otherwise.
+}
+  \item{corr}{boolean : corr=TRUE if you need the value of correlation coefficient between the
+original variables and some first principal factors; corr=FALSE otherwise.
+}
+  \item{data_init}{integer : this argument is only relevant when stream=TRUE. It represents the number
+of data used to intialize the analysis.
+
+}
+  \item{exec_time}{real : execution time. ( if stream=TRUE, the analysis will stop when the first of
+these two events happen: all the data have been taken into account or execution time has been achieved. ) 
+}
+  \item{graphics}{boolean : if graphics=TRUE, 2D visualizations will be plotted, representing
+projections of the observations on all the plans generated by the \code{nb_fact} direction vectors
+of the principal axes. If corr=TRUE, correlation circles that show a projection of the initial variables in the factors
+spaces will also be plotted; if graphics=FALSE, no graphics will be plotted.
+
+
+N.B. : For the fist kind of graphics, a gradation of grey was chosen to represent the "age" of the observations. The darker a point is, the newer the observation is. This coding
+is meaningful for a data stream (stream=TRUE). if stream=FALSE, the "age" concept is less relevant: in this configuration, the darker a point is, the lower the observation is in
+the matrix (database).  
+}
+  \item{print_step}{integer : this argument is only relevant when stream=TRUE. Each time that a new observation
+is taken into account, a new estimation of the principal factors (or principal axes, ...) is computed but not
+necessarily printed: it will be printed only every \code{print_step} observations.  
+}
+}
+
+\value{
+results that user needs (principal factors, principal axes, eigenvalues and correlation coefficients)
+}
+\references{
+
+"Convergence d'un processus d'estimation stochastique en analyse factorielle"
+by Jean-Marie Monnez in "Publ.Inst.Statist.Univ.Paris", 1994, vol.38, n°1 p.37-55
+
+
+"Approximation stochastique en analyse des données: Methodes et Applications"
+ by Abdelhalim Bouamaine and Jean Marie Monnez, 2012, Broché, Editions universitaires europeennes.
+
+More specific references are given in each function description file. 
+}
+\author{BAR Romain, IECN, Université de Lorraine, INRIA : BIGS group.
+}
+
+
+\examples{
+
+data(decath)
+factas(type="PCA",data=decath,stream=TRUE,nb_fact=3,principal_factors=TRUE,
+principal_axes=TRUE,eigenvalues=TRUE,corr=TRUE,graphics=FALSE,data_init=20,
+exec_time=1,print_step=10)
+
+
+data(vins_de_loire)
+factas(type="MFA",rbind(vins_de_loire,vins_de_loire,vins_de_loire),c(5,3,10,9,2),
+stream=TRUE,3,principal_factors=TRUE,principal_axes=TRUE,eigenvalues=TRUE,corr=TRUE,
+30,graphics=FALSE,1,print_step=10)
+
+
+data(psy)
+factas(type="CCA",psy,c(3,4),stream=TRUE,nb_fact=3,principal_factors=TRUE,
+principal_axes=TRUE,eigenvalues=TRUE,corr=TRUE,graphics=FALSE,data_init=20,
+exec_time=1,print_step=10)
+
+}
+
+% Add one or more standard keywords, see file 'KEYWORDS' in the
+% R documentation directory.
+\keyword{big data}
+\keyword{ data mining }
+\keyword{data stream, on-line}
+\keyword{stochastic approximation}
+
