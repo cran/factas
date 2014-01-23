@@ -71,8 +71,8 @@ while ((n<nrow(data)) && ( (proc.time()-debut_chrono)<exec_time ))
           
           temp1 <- t(A[[i]])%*%M1
           
-          FA <- (temp1%*%C%*%t(temp1)) / (temp1%*%A[[i]])
-          Y[[i]] <- A[[i]] + an * (C%*%t(temp1) - as.numeric(FA)*A[[i]])
+          FA <- (temp1%*%C%*%t(as.matrix(temp1))) / (temp1%*%A[[i]])
+          Y[[i]] <- A[[i]] + an * (C%*%t(as.matrix(temp1)) - as.numeric(FA)*A[[i]])
 
           if (principal_factors==TRUE) { N1<-solve(M1)
                                          X[[i]]<-N1%*%A[[i]] }
@@ -142,7 +142,7 @@ y_max<-max(max(abs(y)),1)
 x<-x/x_max
 y<-y/y_max
 
-x11()
+dev.new()
 plot(y,x,xlim=c(-1,1),ylim=c(-1,1),col=palette2,xlab= paste("Axe",i),ylab= paste("Axe",j), main=paste("Representation des invidus dans le plan factoriel",i,j))
 axis(2,pos=0)
 axis(1,pos=0)
@@ -152,7 +152,7 @@ if (corr==TRUE){
 for (i in 1:(nb_fact-1)){
 for (j in (i+1):nb_fact){
 
-x11()
+dev.new()
 par(pty="s")
 plot(as.vector(Corr[[i]]),as.vector(Corr[[j]]), xlim=c(-1,1), ylim=c(-1,1),pch="+",xlab=paste("Axe",i),ylab=paste("Axe",j),main=paste("Cercle des correlations des variables avec les facteurs",i,"et",j))
 text(as.vector(Corr[[i]])+0.06,as.vector(Corr[[j]]), labels=1:ncol(data))
@@ -208,7 +208,7 @@ y_max<-max(max(abs(y)),1)
 x<-x/x_max
 y<-y/y_max
 
-x11()
+dev.new()
 plot(y,x,xlim=c(-1,1),ylim=c(-1,1),col=palette2,xlab= paste("Axe",i),ylab= paste("Axe",j), main=paste("Representation des invidus dans le plan factoriel",i,j))
 axis(2,pos=0)
 axis(1,pos=0)
@@ -217,7 +217,7 @@ axis(1,pos=0)
 if(corr==TRUE){
 for (i in 1:(nb_fact-1)){
 for (j in (i+1):nb_fact){
-x11()
+dev.new()
 par(pty="s")
 plot(as.vector(Corr[[i]]),as.vector(Corr[[j]]), xlim=c(-1,1), ylim=c(-1,1),pch="+",xlab=paste("Axe",i),ylab=paste("Axe",j),main=paste("Cercle des correlations des variables avec les facteurs",i,"et",j))
 text(as.vector(Corr[[i]])+0.06,as.vector(Corr[[j]]), labels=1:ncol(data))

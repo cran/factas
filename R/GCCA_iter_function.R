@@ -65,7 +65,7 @@ if (stream==TRUE)
           
           { 
             temp <- t(A[[i]])%*%M1
-            FA <- (temp%*%C%*%t(temp))/ (temp%*%A[[i]])
+            FA <- (temp%*%C%*%t(as.matrix(temp)))/ (temp%*%A[[i]])
             Y[[i]] <- as.matrix( A[[i]] + an * (B%*%A[[i]] - as.numeric(FA)*A[[i]]) )
             
 
@@ -105,7 +105,7 @@ while ((n<nrow(data)) && ( (proc.time()-debut_chrono)<exec_time ))
           
          { 
             temp <- t(A[[i]])%*%M1
-            FA <- (temp%*%C%*%t(temp))/ (temp%*%A[[i]])
+            FA <- (temp%*%C%*%t(as.matrix(temp)))/ (temp%*%A[[i]])
             Y[[i]] <- as.matrix(A[[i]] + an * (B%*%A[[i]] - as.numeric(FA)*A[[i]]))
             
 

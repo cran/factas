@@ -101,7 +101,7 @@ BAR Romain, Université de Lorraine, IECL, INRIA : BIGS group.
 
 data(vins_de_loire)
 GCCA(rbind(vins_de_loire,vins_de_loire,vins_de_loire),c(5,3,10,9,2),stream=TRUE,3,
-principal_factors=TRUE,principal_axes=TRUE,eigenvalues=TRUE,corr=TRUE,30,graphics=TRUE,
+principal_factors=TRUE,principal_axes=TRUE,eigenvalues=TRUE,corr=TRUE,30,graphics=FALSE,
 1,print_step=10)
 
 }

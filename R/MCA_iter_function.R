@@ -33,7 +33,7 @@ rbar[indices_debut_groupes[k]:(indices_debut_groupes[k+1]-1)]%*%t(rbar[indices_d
 M[[k]] <- diag(1/(diag(Ck[[k]])))
 }
 
-M1<-diag(bdiag(M))
+M1<-diag(as.matrix(bdiag(M)))
 N1<-1/M1
 B=t(C*M1)
 
